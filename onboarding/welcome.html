@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Filler Pro, auto-fill forms and test data in one keystroke</title>
+<meta name="description" content="Form Filler Pro auto-fills any web form from saved profiles in one keystroke. Smart field detection for React, Vue and Angular. Built for QA testers and developers.">
+<meta name="author" content="Zovo">
+<link rel="stylesheet" href="welcome.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "name": "Zovo", "url": "https://zovo.one/",
+      "description": "Independent studio building safe, fast Chrome extensions.",
+      "knowsAbout": ["form autofill", "test data generation", "QA testing tools", "Chrome extensions"] },
+    { "@type": "WebApplication", "name": "Form Filler Pro",
+      "applicationCategory": "DeveloperApplication", "operatingSystem": "Chrome",
+      "offers": [
+        { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free" },
+        { "@type": "Offer", "price": "4.99", "priceCurrency": "USD", "name": "Pro monthly" },
+        { "@type": "Offer", "price": "99", "priceCurrency": "USD", "name": "Zovo Lifetime" }
+      ] },
+    { "@type": "FAQPage", "mainEntity": [
+      { "@type": "Question", "name": "Is my data safe?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Every profile is stored locally in your browser. Form Filler Pro sends nothing to a server, sells nothing, and works fully offline." } },
+      { "@type": "Question", "name": "What does Pro unlock?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Unlimited profiles and fills, the random test-data generator, multi-step fill sequences, import and export, custom field rules, and team sharing." } },
+      { "@type": "Question", "name": "Can I cancel?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Anytime, in one click. Lifetime is a single ninety-nine dollar payment with a 30-day money-back guarantee." } }
+    ] }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="bg-grid"></div>
+
+<nav class="topnav">
+  <div class="brand">
+    <span class="z"><b>zovo</b>.</span>
+    <span class="sep"></span>
+    <span class="prod">Form Filler Pro</span>
+  </div>
+  <a class="ghlink" href="https://chromewebstore.google.com/detail/form-filler-pro-auto-fill/hmbedfhmeeljkifcnekoidogkplcbkpk" target="_blank" rel="noopener">
+    View on the store <span class="arr">↗</span>
+  </a>
+</nav>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="stage" id="stage">
+
+  <!-- ============ STEP 1 · THE PROBLEM ============ -->
+  <section class="step active" data-step="1">
+    <div class="center">
+      <span class="kicker">Built for QA testers and developers</span>
+      <h1>You'll fill the same form<br><span class="em">forty times</span> today.</h1>
+      <p class="lede qas" data-keyword="form filler for testers">A QA tester fills 50 to 100 forms a day by hand, and
+        every one is the same name, email, address, and card. Form Filler Pro does the whole form in one keystroke.</p>
+
+      <div class="ffform">
+        <div class="ffform-top"><span class="ffform-title">Checkout · by hand</span><span class="ffcount">~40 sec each</span></div>
+        <div class="ffrow"><span class="fflabel">Full name</span><span class="ffval"><span class="ph">type it again</span></span></div>
+        <div class="ffrow"><span class="fflabel">Email</span><span class="ffval"><span class="ph">type it again</span></span></div>
+        <div class="ffrow"><span class="fflabel">Address</span><span class="ffval"><span class="ph">type it again</span></span></div>
+        <div class="ffrow"><span class="fflabel">Card</span><span class="ffval"><span class="ph">type it again</span></span></div>
+      </div>
+
+      <div class="chips-row">
+        <span class="chip-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>All data stays on your device</span>
+        <span class="chip-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>No tracking, no servers</span>
+        <span class="chip-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Manifest V3</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 2 · INSTANT WIN (fill demo) ============ -->
+  <section class="step" data-step="2">
+    <div class="center">
+      <span class="kicker">Watch it work · one keystroke</span>
+      <h2>Every field, in <span class="em">one press</span>.</h2>
+      <p class="lede qas" data-keyword="one click form autofill">Press Alt+F and Form Filler Pro fills the whole form
+        from your active profile, with smart detection that reads React, Vue, and Angular fields the same way.</p>
+
+      <div class="ffform">
+        <div class="ffform-top"><span class="ffform-title">Signup form · demo</span><span class="ffcount" id="ffCount">0 of 5 filled</span></div>
+        <div class="ffrow" data-v="Alex Morgan"><span class="fflabel">Full name</span><span class="ffval"><span class="ph">empty</span></span></div>
+        <div class="ffrow" data-v="alex.morgan@example.com"><span class="fflabel">Email</span><span class="ffval"><span class="ph">empty</span></span></div>
+        <div class="ffrow" data-v="+1 415 555 0142"><span class="fflabel">Phone</span><span class="ffval"><span class="ph">empty</span></span></div>
+        <div class="ffrow" data-v="500 Market St, San Francisco"><span class="fflabel">Address</span><span class="ffval"><span class="ph">empty</span></span></div>
+        <div class="ffrow" data-v="4242 4242 4242 4242"><span class="fflabel">Card</span><span class="ffval"><span class="ph">empty</span></span></div>
+        <button class="cta demo-btn" id="fillBtn" style="margin-top:18px;width:100%">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+          Auto-fill this form
+        </button>
+      </div>
+      <p class="demo-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
+        Need fake data instead? Alt+Shift+F fills realistic random values that pass validation.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ STEP 3 · MAKE IT YOURS ============ -->
+  <section class="step" data-step="3">
+    <div class="center">
+      <span class="kicker">30 seconds to set up your first profile</span>
+      <h2>Save it once. Use it <span class="em">everywhere</span>.</h2>
+      <p class="lede">A profile is a saved set of values Form Filler Pro types for you. Make one for real data, one for
+        testing, and switch between them with Alt+S.</p>
+
+      <div class="setup">
+        <div class="opt">
+          <label class="opt-lbl">Your first profile</label>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" checked data-field="name"><span>Name</span></label>
+            <label class="chip"><input type="checkbox" checked data-field="email"><span>Email</span></label>
+            <label class="chip"><input type="checkbox" checked data-field="phone"><span>Phone</span></label>
+            <label class="chip"><input type="checkbox" data-field="address"><span>Address</span></label>
+            <label class="chip"><input type="checkbox" data-field="company"><span>Company</span></label>
+            <label class="chip"><input type="checkbox" data-field="card"><span>Test card</span></label>
+          </div>
+        </div>
+        <div class="opt tgls">
+          <div class="tgl-row"><span>Detect fields automatically on every site</span>
+            <label class="tgl"><input type="checkbox" id="s1" checked><span class="tgl-s"></span></label></div>
+          <div class="tgl-row"><span>Fill inside iframes and Shadow DOM</span>
+            <label class="tgl"><input type="checkbox" id="s2" checked><span class="tgl-s"></span></label></div>
+          <div class="tgl-row"><span>Never touch password fields unless I ask</span>
+            <label class="tgl"><input type="checkbox" id="s3" checked><span class="tgl-s"></span></label></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 4 · BUILT BY SOMEONE YOU CAN REACH ============ -->
+  <section class="step" data-step="4">
+    <div class="center">
+      <span class="kicker">Your data never leaves your machine</span>
+      <h2>Safe by design, <span class="em">and by hand</span>.</h2>
+      <p class="lede qas" data-keyword="form filler privacy">Form Filler Pro stores every profile locally in your
+        browser and sends nothing to a server, so your names, emails, and test cards never leave your machine.</p>
+
+      <div class="receipts">
+        <span class="receipt"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>100% local storage, works offline</span>
+        <span class="receipt"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Manifest V3, no remote code</span>
+        <span class="receipt"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Zero analytics, nothing sold</span>
+      </div>
+
+      <div class="founder">
+        <img class="pic" src="assets/michael-lip.png" alt="Michael Lip">
+        <div class="body">
+          <div class="nm">Michael Lip
+            <span class="role">· founder, Zovo</span>
+          </div>
+          <p class="cred">Solo developer behind the Zovo extension suite.</p>
+          <div class="socials">
+            <a href="https://github.com/theluckystrike" target="_blank" rel="noopener">theluckystrike</a>
+            <a href="mailto:support@zovo.one">support@zovo.one</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 5 · PRICING ============ -->
+  <section class="step" data-step="5">
+    <div class="center">
+      <span class="kicker">Free is genuinely useful. Pro is for people who live in forms.</span>
+      <h2>Fill faster than you <span class="em">can type</span>.</h2>
+      <p class="lede">Filling forms and saving 3 profiles stays free. Pro removes the limits and adds the power tools
+        that QA teams pay for.</p>
+
+      <div class="pricing">
+        <div class="pcard">
+          <div class="seg" id="planSeg">
+            <button data-plan="monthly">Monthly</button>
+            <button data-plan="lifetime" class="on">Lifetime <span class="flag">best value</span></button>
+          </div>
+          <div class="price" id="priceRow">
+            <span class="amt" id="priceAmt">$99</span><span class="per" id="pricePer">once</span>
+          </div>
+          <div class="price-sub" id="priceSub">One payment, Pro unlocked for good</div>
+
+          <div class="pfeat">
+            <div class="pf"><div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div><div class="tx"><span class="ttl">Unlimited profiles and fills</span><span>Free stops at 3 profiles and 50 fills a day. Pro removes both.</span></div></div>
+            <div class="pf"><div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><div class="tx"><span class="ttl">Automation sequences</span><span>Chain multi-step and multi-page forms into one run, with waits and conditions.</span></div></div>
+            <div class="pf"><div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div><div class="tx"><span class="ttl">Custom rules, import and export, team sharing</span><span>Write field rules and templates, back profiles up as JSON, and share them with your team.</span></div></div>
+          </div>
+
+          <div class="reassure-row">
+            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg><span id="reassure1">Free for the basics</span></span>
+            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>Cancel anytime</span>
+            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>30-day money-back</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq" id="faq">
+        <div class="faq-item"><button class="faq-q">Is my data safe?<span class="pm">+</span></button>
+          <div class="faq-a"><p>Every profile is stored locally in your browser. Form Filler Pro sends nothing to a server, sells nothing, and works fully offline.</p></div></div>
+        <div class="faq-item"><button class="faq-q">What does Lifetime include?<span class="pm">+</span></button>
+          <div class="faq-a"><p>One payment unlocks Pro in Form Filler Pro, including the features added later. No subscription, nothing to cancel.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Do you have team seats?<span class="pm">+</span></button>
+          <div class="faq-a"><p>Yes. Pro includes profile sharing, and team plans with a shared dashboard are available at zovo.one/pricing.</p></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ STEP 6 · ALL SET + SIGN-OFF ============ -->
+  <section class="step" data-step="6">
+    <div class="center">
+      <div class="done-ic"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <span class="kicker mint">Ready on every form</span>
+      <h2>You're all set.</h2>
+      <p class="lede">Open any form, press Alt+F, and Form Filler Pro fills it from your active profile. That's the
+        whole thing. Everything else is just fewer keystrokes.</p>
+
+      <div class="sc-title">Your keyboard shortcuts</div>
+      <div class="shortcuts">
+        <div class="sc"><span class="keys"><kbd>Alt</kbd><kbd>F</kbd></span>Fill the current form</div>
+        <div class="sc"><span class="keys"><kbd>Alt</kbd><kbd>⇧</kbd><kbd>F</kbd></span>Fill with random test data</div>
+        <div class="sc"><span class="keys"><kbd>Alt</kbd><kbd>S</kbd></span>Switch to the next profile</div>
+        <div class="sc"><span class="keys"><kbd>Alt</kbd><kbd>C</kbd></span>Clear the form</div>
+      </div>
+
+      <div class="signoff">
+        <div class="signoff-head">
+          <img class="pic" src="assets/michael-lip.png" alt="Michael Lip">
+          <div class="who">
+            <div class="nm">Michael Lip
+            </div>
+            <div class="role">a note from the person who built this</div>
+          </div>
+        </div>
+        <p>I built Form Filler Pro because I got tired of retyping the same test data a hundred times a day. It keeps
+          everything on your machine, because a tool that touches your emails and cards has no business phoning home.</p>
+        <p>If a field doesn't detect, or you want it to do one more thing, tell me. Every request is read and fixed by
+          the person who wrote the code. That's the deal. You use it, I keep making it sharper.</p>
+        <div class="sig">Michael</div>
+        <div class="reach">
+          <a href="mailto:support@zovo.one">support@zovo.one</a>
+          <a href="https://github.com/theluckystrike" target="_blank" rel="noopener">github.com/theluckystrike</a>
+        </div>
+        <p class="ps">P.S. Lifetime is a single payment and keeps Pro here for good, including everything I add later. Pick whatever
+          fits, and thanks for filling forms the fast way.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="navbar">
+  <div class="navbar-in">
+    <button class="nbtn back" id="backBtn" hidden>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Back
+    </button>
+    <div class="indicator">
+      <span class="counter" id="counter">01 / 06</span>
+      <div class="dots" id="dots">
+        <button class="dot active" data-step="1" aria-label="Step 1"></button>
+        <button class="dot" data-step="2" aria-label="Step 2"></button>
+        <button class="dot" data-step="3" aria-label="Step 3"></button>
+        <button class="dot" data-step="4" aria-label="Step 4"></button>
+        <button class="dot" data-step="5" aria-label="Step 5"></button>
+        <button class="dot" data-step="6" aria-label="Step 6"></button>
+      </div>
+    </div>
+    <button class="nbtn next" id="nextBtn">
+      <span id="nextLabel">Show me</span>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="welcome.js"></script>
+</body>
+</html>
